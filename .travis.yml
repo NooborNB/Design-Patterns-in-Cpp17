@@ -1,0 +1,26 @@
+language: cpp
+dist: bionic
+script:
+  - g++ -std=c++17 ./src/Abstract_Factory.cpp
+  - g++ -std=c++17 ./src/Adapter.cpp
+  - g++ -std=c++17 ./src/Bridge.cpp
+  - g++ -std=c++17 ./src/Builder.cpp
+  - g++ -std=c++17 ./src/Chain_of_Responsibility.cpp
+  - g++ -std=c++17 ./src/Command.cpp
+  - g++ -std=c++17 ./src/Composite.cpp
+  - g++ -std=c++17 ./src/Decorator.cpp
+  - g++ -std=c++17 ./src/Facade.cpp
+  - g++ -std=c++17 ./src/Factory_Method.cpp
+  - g++ -std=c++17 ./src/Flyweight.cpp
+  - g++ -std=c++17 ./src/Interpreter.cpp
+  - g++ -std=c++17 ./src/Iterator.cpp
+  - g++ -std=c++17 ./src/Mediator.cpp
+  - g++ -std=c++17 ./src/Memento.cpp
+  - g++ -std=c++17 ./src/Observer.cpp
+  - g++ -std=c++17 ./src/Prototype.cpp
+  - g++ -std=c++17 ./src/Proxy.cpp
+  - g++ -std=c++17 ./src/Singleton.cpp
+  - g++ -std=c++17 ./src/State.cpp
+  - g++ -std=c++17 ./src/Strategy.cpp
+  - g++ -std=c++17 ./src/Template_Method.cpp
+  - g++ -std=c++17 ./src/Visitor.cpp
