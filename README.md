@@ -146,7 +146,7 @@ private:
   * 发布复用等价性原则（Release Reuse Equivalency Principle，REP）：复用的粒度就是发布的粒度。第三方库的作者需要维护每个版本，作者可以修改代码，但是用户不需要了解源码的变化，而可以自由选择使用哪个版本的库，因此库作者应该将可复用的类打包成包，以包为单位来更新，而不是更新每个类，比如[Boost](https://www.boost.org/)有一个版本号，而其中的每个子部分（如[Boost.Asio](https://www.boost.org/doc/libs/1_66_0/doc/html/boost_asio.html)）又有各自独立的版本号
   * 共同封装原则（Common Closure Principle，CCP）：一同变更的类应该合在一起，如果一些类处理相同的功能或行为域，那么这些类应该根据内聚性分到一组打包，这样需要修改某个域的功能时，只需要修改这个包中的代码
   * 共同复用原则（Common Reuse Principle，CRP）：不能一起被复用的类不能被分到一组。当包中的类变化时，包的版本号也会变化，如果不相关的类被分到一组，就会导致本来无必要的包的版本升级，为此又需要进行本来无必要的集成和测试
-* 设计模式是从已有的软件设计中，针对重复出现的问题提取出的一套经验论，其概念源自[Design Patterns: Elements of Reusable Object-Oriented Software](https://www.oreilly.com/library/view/design-patterns-elements/0201633612/)（[设计模式：可复用面向对象软件的基础](https://book.douban.com/subject/1052241/)），此书由四人合著，因此简称GoF（Gang of Four）。一些设计模式已经用在编程语言或框架中了，比如Qt的信号槽、C#的委托事件、RxJS的Observable，都是观察者模式的应用。设计模式减少了术语交流的沟通成本，灵活使用它来写出低耦合少重复的代码。GoF提出了23种设计模式，可以分为创建型（Creational）、结构型（Structural）、行为型（Behavioral）三类。
+* 设计模式是从已有的软件设计中，针对重复出现的问题提取出的一套经验论，其概念源自[Design Patterns: Elements of Reusable Object-Oriented Software](https://www.oreilly.com/library/view/design-patterns-elements/0201633612/)（[设计模式：可复用面向对象软件的基础](https://book.douban.com/subject/1052241/)），此书由四人合著，因此简称GoF（Gang of Four）。GoF总结归纳了23种设计模式，分为创建型（Creational）、结构型（Structural）、行为型（Behavioral）三类。一些设计模式已经用在编程语言或框架中了，比如Qt的信号槽、C#的委托事件、RxJS的Observable，都是观察者模式的应用。设计模式减少了术语交流的沟通成本，灵活使用它来写出低耦合少重复的代码。
 
 |创建型模式|中文名|说明|实现|
 |:-|:-|:-|:-|
