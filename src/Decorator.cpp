@@ -75,14 +75,17 @@ int main()
     Line<ColorDecorator> line2;
     Line<WeightDecorator> line3;
     Line<ColorDecorator, WeightDecorator> line4;
+
     Text text1;
     Text<ColorDecorator> text2;
     Text<WeightDecorator> text3;
     Text<ColorDecorator, WeightDecorator> text4;
+
     line1.show(); // line
     line2.show(); // red line
     line3.show(); // bold line
     line4.show(); // red bold line
+
     text1.show(); // text
     text2.show(); // black text
     text3.show(); // normal text

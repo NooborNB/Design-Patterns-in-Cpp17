@@ -11,6 +11,7 @@ public:
 class ConcreteFlyweight : public Flyweight {
 public:
     explicit ConcreteFlyweight(char _c) : c(_c) {}
+
     void print() override
     {
         std::cout << c;
@@ -32,6 +33,7 @@ public:
         m.try_emplace(c, p);
         return p;
     }
+
 private:
     std::unordered_map<char, std::shared_ptr<Flyweight>> m;
 };
@@ -42,6 +44,7 @@ int main()
     std::shared_ptr<Flyweight> a = factory.getFlyweight('a');
     std::shared_ptr<Flyweight> b = factory.getFlyweight('a'); // existing char
     std::shared_ptr<Flyweight> c = factory.getFlyweight('b');
+
     a->print(); // a
     b->print(); // a
     c->print(); // b

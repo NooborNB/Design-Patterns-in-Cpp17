@@ -21,12 +21,14 @@ public:
     {
         getImage().show();
     }
+
 protected:
     Image& getImage()
     {
         if (!p) p = std::make_unique<Image>();
         return *p;
     }
+
 private:
     std::unique_ptr<Image> p;
 };

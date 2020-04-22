@@ -16,11 +16,14 @@ public:
             std::cout << i << "can't be processed\n";
         }
     }
+
     void setNext(std::shared_ptr<Handler> _p)
     {
         p = std::move(_p);
     }
+
     virtual ~Handler() = default;
+
 private:
     std::shared_ptr<Handler> p;
 };
@@ -75,8 +78,10 @@ int main()
     auto a = std::make_shared<A>();
     auto b = std::make_shared<B>();
     auto c = std::make_shared<C>();
+
     a->setNext(b);
     b->setNext(c);
+
     a->process(9); // 9 processed by A
     a->process(999); // 999 processed by C
     a->process(99); // 99 processed by B

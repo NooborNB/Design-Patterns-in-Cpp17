@@ -1,4 +1,5 @@
 * 原型模式提供一个clone接口来创建新的对象，避免了创建相同对象时要编写的重复代码
+
 ```cpp
 class Prototype {
 public:

@@ -13,6 +13,7 @@ public:
     {
         std::cout << 1;
     }
+
     virtual ~Adaptee() = default;
 };
 

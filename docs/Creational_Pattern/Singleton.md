@@ -1,4 +1,5 @@
 * 单例模式保证一个类只有一个实例
+
 ```cpp
 class Singleton {
 public:

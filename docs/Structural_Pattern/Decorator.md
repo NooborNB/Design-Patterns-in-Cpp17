@@ -1,4 +1,5 @@
 * 装饰器可以不改变定义地扩展功能
+
 ```cpp
 // 定义接口的Component
 class Shape {
@@ -20,6 +21,7 @@ public:
 class Decorator : public Shape {
 public:
     Decorator(std::unique_ptr<Shape> p) : shape(std::move(p)) {}
+
     void show() override
     {
         shape->show();
@@ -32,6 +34,7 @@ private:
 class ColorDecorator : public Decorator {
 public:
     using Decorator::Decorator;
+
     void show() override
     {
         std::cout << "red ";
@@ -45,7 +48,9 @@ int main()
     colorDecorator->show(); // red line
 }
 ```
-* 用Mixins手法实现装饰器
+
+* 用模板实现装饰器
+
 ```cpp
 void expandArgs() {}
 
@@ -94,13 +99,16 @@ int main()
     Line<ColorDecorator> line2;
     Line<WeightDecorator> line3;
     Line<ColorDecorator, WeightDecorator> line4;
+
     line1.show(); // line
     line2.show(); // red line
     line3.show(); // bold line
     line4.show(); // red bold line
 }
 ```
+
 * 结合CRTP
+
 ```cpp
 void expandArgs() {}
 
@@ -175,10 +183,12 @@ int main()
     Line<ColorDecorator> line2;
     Line<WeightDecorator> line3;
     Line<ColorDecorator, WeightDecorator> line4;
+
     Text text1;
     Text<ColorDecorator> text2;
     Text<WeightDecorator> text3;
     Text<ColorDecorator, WeightDecorator> text4;
+
     line1.show(); // line
     line2.show(); // red line
     line3.show(); // bold line

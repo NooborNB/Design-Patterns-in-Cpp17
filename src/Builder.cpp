@@ -20,22 +20,27 @@ public:
 class LOLGameDevice : public GameDevice {
 public:
     LOLGameDevice() : device(std::make_unique<DeviceSuite>()) {}
+
     void buildMouse() override
     {
         device->setMouse("Logitech");
     }
+
     void buildKeyboard() override
     {
         device->setKeyboard("Filco");
     }
+
     void buildHeadphone() override
     {
         device->setHeadphone("Sennheiser");
     }
+
     DeviceSuite& getDevice() const override
     {
         return *device;
     }
+
 private:
     std::unique_ptr<DeviceSuite> device;
 };
@@ -43,22 +48,27 @@ private:
 class DNFGameDevice : public GameDevice {
 public:
     DNFGameDevice() : device(std::make_unique<DeviceSuite>()) {}
+
     void buildMouse() override
     {
         device->setMouse("Razer");
     }
+
     void buildKeyboard() override
     {
         device->setKeyboard("Cherry");
     }
+
     void buildHeadphone() override
     {
         device->setHeadphone("Beyerdynamic");
     }
+
     DeviceSuite& getDevice() const override
     {
         return *device;
     }
+
 private:
     std::unique_ptr<DeviceSuite> device;
 };
@@ -79,6 +89,7 @@ int main()
     Life life;
     LOLGameDevice LOLBuilder;
     DNFGameDevice DNFBuilder;
+
     DeviceSuite LOLDevice = life.createDevice(LOLBuilder);
     DeviceSuite DNFDevice = life.createDevice(DNFBuilder);
 }

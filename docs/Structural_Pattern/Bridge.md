@@ -1,4 +1,5 @@
 * 桥接模式分离了接口部分和实现部分，使其可以独立变化。这样就可以在不影响接口部分的情况下修改实现部分，接口部分的代码无需重新编译，从而降低了编译依赖，这种手法在C++中称为[pImpl（Pointer to implementation）](https://en.cppreference.com/w/cpp/language/pimpl)
+
 ```cpp
 class AImpl { // 提供基础操作的实现部分
 public:
@@ -19,7 +20,9 @@ int main()
     a.f();
 }
 ```
+
 * 当有多个实现时
+
 ```cpp
 class AbstractionImpl { // 定义实现部分的抽象类
 public:
@@ -65,6 +68,7 @@ int main()
     std::unique_ptr<Abstraction> a2 = std::make_unique<A1>(std::make_unique<AImpl2>());
     std::unique_ptr<Abstraction> a3 = std::make_unique<A2>(std::make_unique<AImpl1>());
     std::unique_ptr<Abstraction> a4 = std::make_unique<A2>(std::make_unique<AImpl2>());
+
     a1->f(); // 1
     a2->f(); // 2
     a3->f(); // 1

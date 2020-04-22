@@ -20,7 +20,9 @@ template<typename T>
 class CommandA : public Command {
 public:
     using Action = void (T::*)();
+
     CommandA(const std::shared_ptr<T>& p, Action a) : receiver(p), action(a) {}
+
     void execute() override
     {
         std::cout << "A";
@@ -29,6 +31,7 @@ public:
             (p.get()->*action)();
         }
     }
+
 private:
     std::weak_ptr<T> receiver;
     Action action;
@@ -38,7 +41,9 @@ template<typename T>
 class CommandB : public Command {
 public:
     using Action = void (T::*)();
+
     CommandB(const std::shared_ptr<T>& p, Action a) : receiver(p), action(a) {}
+
     void execute() override
     {
         std::cout << "B";
@@ -47,6 +52,7 @@ public:
             (p.get()->*action)();
         }
     }
+
 private:
     std::weak_ptr<T> receiver;
     Action action;
@@ -58,11 +64,12 @@ public:
     {
         commands.emplace_back(c);
     }
+
     void remove(const std::shared_ptr<Command>& c)
     {
-        commands.remove_if(
-            [&](std::weak_ptr<Command>& x) { return x.lock() == c; });
+        commands.remove_if([&](std::weak_ptr<Command>& x) { return x.lock() == c; });
     }
+
     void execute() override
     {
         for (auto&& x : commands)
@@ -70,6 +77,7 @@ public:
             if (const auto p = x.lock()) p->execute();
         }
     }
+
 private:
     std::list<std::weak_ptr<Command>> commands;
 };

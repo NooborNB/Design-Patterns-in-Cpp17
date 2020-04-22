@@ -1,4 +1,5 @@
 * 定义一种特定语言，针对其文法定义一个解释器，使用这个解释器就能解释该语言表达的语句
+
 ```cpp
 class Context {
 public:
@@ -6,10 +7,12 @@ public:
     {
         s = _s;
     }
+
     std::string_view getMessage() const
     {
         return s;
     }
+
 private:
     std::string s;
 };
@@ -23,10 +26,12 @@ public:
 class TerminalExpression : public Expression {
 public:
     TerminalExpression(std::string_view _s) : s(_s) {}
+
     bool interpret(const Context& context) override
     {
         return context.getMessage().find(s) == std::string_view::npos;
     }
+
 private:
     std::string s;
 };
@@ -34,10 +39,12 @@ private:
 class AndExpression : public Expression {
 public:
     AndExpression(std::shared_ptr<Expression> _p, std::shared_ptr<Expression> _q) : p(std::move(_p)), q(std::move(_q)) {}
+
     bool interpret(const Context& context) override
     {
         return p->interpret(context) && q->interpret(context);
     }
+
 private:
     std::shared_ptr<Expression> p;
     std::shared_ptr<Expression> q;
@@ -48,8 +55,10 @@ int main()
     std::shared_ptr<Expression> a = std::make_shared<TerminalExpression>("sb");
     std::shared_ptr<Expression> b = std::make_shared<TerminalExpression>("fk");
     std::shared_ptr<Expression> expression = std::make_shared<AndExpression>(a, b);
+
     Context context;
     context.setMessage("hello world");
+
     if (expression->interpret(context))
     {
         std::cout << context.getMessage();

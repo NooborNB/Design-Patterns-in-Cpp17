@@ -23,14 +23,17 @@ public:
     {
         return std::make_unique<Door>();
     }
+
     virtual std::unique_ptr<Window> makeWindow()
     {
         return std::make_unique<Window>();
     }
+
     virtual std::unique_ptr<House> makeHouse()
     {
         return std::make_unique<House>();
     }
+
     virtual ~HouseFactory() = default;
 };
 
@@ -57,10 +60,12 @@ public:
     {
         return std::make_unique<WoodDoor>();
     }
+
     std::unique_ptr<Window> makeWindow() override
     {
         return std::make_unique<WoodWindow>();
     }
+
     std::unique_ptr<House> makeHouse() override
     {
         return std::make_unique<WoodHouse>();
@@ -71,5 +76,6 @@ int main()
 {
     Life life;
     WoodHouseFactory factory;
+
     std::unique_ptr<House> house = life.createHouse(factory);
 }

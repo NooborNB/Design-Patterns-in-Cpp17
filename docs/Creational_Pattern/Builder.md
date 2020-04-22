@@ -1,4 +1,5 @@
 * 建造者本身只定义接口，由不同实现定义实现类
+
 ```cpp
 // 提供接口的Builder
 class GameDevice {
@@ -14,22 +15,27 @@ public:
 class LOLGameDevice : public GameDevice {
 public:
     LOLGameDevice() : device(std::make_unique<DeviceSuite>()) {}
+
     void buildMouse() override
     {
         device->setMouse("Logitech");
     }
+
     void buildKeyboard() override
     {
         device->setKeyboard("Filco");
     }
+
     void buildHeadphone() override
     {
         device->setHeadphone("Sennheiser");
     }
+
     DeviceSuite& getDevice() const override
     {
         return *device;
     }
+
 private:
     std::unique_ptr<DeviceSuite> device;
 };
@@ -38,27 +44,34 @@ private:
 class DNFGameDevice : public GameDevice {
 public:
     DNFGameDevice() : device(std::make_unique<DeviceSuite>()) {}
+
     void buildMouse() override
     {
         device->setMouse("Razer");
     }
+
     void buildKeyboard() override
     {
         device->setKeyboard("Cherry");
     }
+
     void buildHeadphone() override
     {
         device->setHeadphone("Beyerdynamic");
     }
+
     DeviceSuite& getDevice() const override
     {
         return *device;
     }
+
 private:
     std::unique_ptr<DeviceSuite> device;
 };
 ```
+
 * 用实现类构建一个完整产品
+
 ```cpp
 class Life {
 public:
@@ -76,6 +89,7 @@ int main()
     Life life;
     LOLGameDevice LOLBuilder;
     DNFGameDevice DNFBuilder;
+
     DeviceSuite LOLDevice = life.createDevice(LOLBuilder);
     DeviceSuite DNFDevice = life.createDevice(DNFBuilder);
 }

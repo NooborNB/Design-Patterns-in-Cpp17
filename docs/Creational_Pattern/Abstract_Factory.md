@@ -1,4 +1,5 @@
 * 抽象工厂能生成一系列相关的局部产品
+
 ```cpp
 class HouseFactory {
 public:
@@ -6,18 +7,23 @@ public:
     {
         return std::make_unique<Door>();
     }
+
     virtual std::unique_ptr<Window> makeWindow()
     {
         return std::make_unique<Window>();
     }
+
     virtual std::unique_ptr<House> makeHouse()
     {
         return std::make_unique<House>();
     }
+
     virtual ~HouseFactory() = default;
 };
 ```
+
 * 用这个抽象工厂生成的局部产品即可组合成一个完整的产品
+
 ```cpp
 class Life {
 public:
@@ -39,7 +45,9 @@ int main()
     std::unique_ptr<House> house = life.createHouse(factory); 
 }
 ```
+
 * 继承这个抽象工厂，即可对局部产品进行修改
+
 ```cpp
 class WoodDoor : public Door {};
 class WoodWindow : public Window {};
@@ -51,10 +59,12 @@ public:
     {
         return std::make_unique<WoodDoor>();
     }
+
     std::unique_ptr<Window> makeWindow() override
     {
         return std::make_unique<WoodWindow>();
     }
+
     std::unique_ptr<House> makeHouse() override
     {
         return std::make_unique<WoodHouse>();
@@ -65,6 +75,7 @@ int main()
 {
     Life life;
     WoodHouseFactory factory;
+
     std::unique_ptr<House> house = life.createHouse(factory);
 }
 ```

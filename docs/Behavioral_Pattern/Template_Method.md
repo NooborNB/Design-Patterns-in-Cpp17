@@ -1,4 +1,5 @@
 * 在基类定义一个包含多个操作的方法，每个操作在派生类中实现，基类的这个方法就是模板方法。在C++中这种手法称为NVI（non-virtual interface），模板方法是一个非虚函数，其中的操作为虚函数，并且作为私有成员不暴露给外部
+
 ```cpp
 class Abstract {
 public:
@@ -8,7 +9,9 @@ public:
         g();
         h();
     }
+
     virtual ~Abstract() = default;
+
 private:
     virtual void f() = 0;
     virtual void g() = 0;
@@ -33,6 +36,7 @@ int main()
 {
     std::unique_ptr<Abstract> a = std::make_unique<A>();
     std::unique_ptr<Abstract> b = std::make_unique<B>();
+
     a->templateMethod(); // 123
     b->templateMethod(); // 456
 }
