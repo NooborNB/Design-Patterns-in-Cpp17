@@ -4,7 +4,7 @@
 
 ## 前言
 
-* 这个项目基于C++17实现了23种GoF设计模式，动机是练习使用[std::shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr)、[std::unique_ptr](https://en.cppreference.com/w/cpp/memory/unique_ptr)、[std::weak_ptr](https://en.cppreference.com/w/cpp/memory/weak_ptr)
+* 为了练习使用[std::shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr)、[std::unique_ptr](https://en.cppreference.com/w/cpp/memory/unique_ptr)、[std::weak_ptr](https://en.cppreference.com/w/cpp/memory/weak_ptr)，基于C++17实现23种GoF设计模式
 * 使用智能指针并不意味着一定没有内存泄漏，比如循环引用的情况
 
 ```cpp
