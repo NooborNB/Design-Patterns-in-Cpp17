@@ -52,15 +52,6 @@ int main()
 * 用模板实现装饰器
 
 ```cpp
-void expandArgs() {}
-
-template<typename T, typename... Ts>
-void expandArgs(T t, Ts... ts)
-{
-    t.show();
-    expandArgs(ts...);
-}
-
 class Shape {
 public:
     virtual void show() = 0;
@@ -72,7 +63,7 @@ class Line : public Shape, public T... {
 public:
     void show() override
     {
-        std::apply([](auto... x) { expandArgs(x...); }, std::make_tuple(T()...));
+        std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T()...));
         std::cout << "line\n";
     }
 };
@@ -110,15 +101,6 @@ int main()
 * 结合CRTP
 
 ```cpp
-void expandArgs() {}
-
-template<typename T, typename... Ts>
-void expandArgs(T t, Ts... ts)
-{
-    t.show();
-    expandArgs(ts...);
-}
-
 class Shape {
 public:
     virtual void show() = 0;
@@ -130,7 +112,7 @@ class Line : public Shape, public T<Line<>>... {
 public:
     void show() override
     {
-        std::apply([](auto... x) { expandArgs(x...); }, std::make_tuple(T<Line<>>()...));
+        std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T<Line<>>()...));
         std::cout << "line\n";
     }
 };
@@ -140,7 +122,7 @@ class Text : public Shape, public T<Text<>>... {
 public:
     void show() override
     {
-        std::apply([](auto... x) { expandArgs(x...); }, std::make_tuple(T<Text<>>()...));
+        std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T<Text<>>()...));
         std::cout << "text\n";
     }
 };
@@ -193,6 +175,7 @@ int main()
     line2.show(); // red line
     line3.show(); // bold line
     line4.show(); // red bold line
+
     text1.show(); // text
     text2.show(); // black text
     text3.show(); // normal text

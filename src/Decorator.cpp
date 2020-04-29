@@ -2,15 +2,6 @@
 #include <tuple>
 #include <type_traits>
 
-void expandArgs() {}
-
-template<typename T, typename... Ts>
-void expandArgs(T t, Ts... ts)
-{
-    t.show();
-    expandArgs(ts...);
-}
-
 class Shape {
 public:
     virtual void show() = 0;
@@ -22,7 +13,7 @@ class Line : public Shape, public T<Line<>>... {
 public:
     void show() override
     {
-        std::apply([](auto... x) { expandArgs(x...); }, std::make_tuple(T<Line<>>()...));
+        std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T<Line<>>()...));
         std::cout << "line\n";
     }
 };
@@ -32,7 +23,7 @@ class Text : public Shape, public T<Text<>>... {
 public:
     void show() override
     {
-        std::apply([](auto... x) { expandArgs(x...); }, std::make_tuple(T<Text<>>()...));
+        std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T<Text<>>()...));
         std::cout << "text\n";
     }
 };
