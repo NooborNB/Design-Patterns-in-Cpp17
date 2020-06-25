@@ -2,26 +2,26 @@
 
 ```cpp
 class Target { // 提供给用户的类
-public:
-    virtual void f() = 0;
-    virtual ~Target() = default;
+ public:
+  virtual void f() = 0;
+  virtual ~Target() = default;
 };
 
 class Adaptee { // 提供实际功能的类
-public:
-    virtual void g() { std::cout << 1; }
-    virtual ~Adaptee() = default;
+ public:
+  virtual void g() { std::cout << 1; }
+  virtual ~Adaptee() = default;
 };
 
 class Adapter : public Target, public Adaptee { // 适配器
-public:
-    void f() override { Adaptee::g(); }
+ public:
+  void f() override { Adaptee::g(); }
 };
 
 int main()
 {
-    std::unique_ptr<Target> target = std::make_unique<Adapter>();
-    target->f(); // 1
+  std::unique_ptr<Target> target = std::make_unique<Adapter>();
+  target->f(); // 1
 }
 ```
 
@@ -29,10 +29,10 @@ int main()
 
 ```cpp
 class Adapter : public Target {
-public:
-    Adapter() : p(std::make_unique<Adaptee>()) {}
-    void f() override { p->g(); }
-private:
-    std::unique_ptr<Adaptee> p;
+ public:
+  Adapter() : p(std::make_unique<Adaptee>()) {}
+  void f() override { p->g(); }
+ private:
+  std::unique_ptr<Adaptee> p;
 };
 ```

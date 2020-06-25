@@ -1,26 +1,30 @@
 * 单例模式保证一个类只有一个实例
 
 ```cpp
+template<typename T>
 class Singleton {
-public:
-    static Singleton& getInstance();
-    Singleton(const Singleton&) = delete;
-    Singleton& operator=(const Singleton&) = delete;
-private:
-    Singleton() = default;
-    ~Singleton() = default;
+ public:
+  static T& getInstance();
+  Singleton(const Singleton&) = delete;
+  Singleton& operator=(const Singleton&) = delete;
+ private:
+  Singleton() = default;
+  ~Singleton() = default;
 };
 
-Singleton& Singleton::getInstance()
+template<typename T>
+T& Singleton<T>::getInstance()
 {
-    static Singleton instance; // 线程安全的初始化
-    return instance;
+  static T inst;
+  return inst;
 }
+
+class A {};
 
 int main()
 {
-    auto& a = Singleton::getInstance();
-    auto& b = Singleton::getInstance();
-    assert(&a == &b);
+  auto& a = Singleton<A>::getInstance();
+  auto& b = Singleton<A>::getInstance();
+  assert(&a == &b);
 }
 ```

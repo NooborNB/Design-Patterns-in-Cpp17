@@ -1,24 +1,28 @@
 #include <cassert>
 
+template<typename T>
 class Singleton {
-public:
-    static Singleton& getInstance();
-    Singleton(const Singleton&) = delete;
-    Singleton& operator=(const Singleton&) = delete;
-private:
-    Singleton() = default;
-    ~Singleton() = default;
+ public:
+  static T& getInstance();
+  Singleton(const Singleton&) = delete;
+  Singleton& operator=(const Singleton&) = delete;
+ private:
+  Singleton() = default;
+  ~Singleton() = default;
 };
 
-Singleton& Singleton::getInstance()
+template<typename T>
+T& Singleton<T>::getInstance()
 {
-    static Singleton instance;
-    return instance;
+  static T inst;
+  return inst;
 }
+
+class A {};
 
 int main()
 {
-    auto& a = Singleton::getInstance();
-    auto& b = Singleton::getInstance();
-    assert(&a == &b);
+  auto& a = Singleton<A>::getInstance();
+  auto& b = Singleton<A>::getInstance();
+  assert(&a == &b);
 }
