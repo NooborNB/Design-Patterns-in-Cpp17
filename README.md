@@ -4,8 +4,8 @@
 
 ## 前言
 
-* 为了练习使用 [std::shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr)、[std::unique_ptr](https://en.cppreference.com/w/cpp/memory/unique_ptr)、[std::weak_ptr](https://en.cppreference.com/w/cpp/memory/weak_ptr)，基于 C++17 实现 23 种 GoF 设计模式
-* 使用智能指针并不意味着一定没有内存泄漏，比如循环引用的情况
+* 练习正确使用 [std::shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr)、[std::unique_ptr](https://en.cppreference.com/w/cpp/memory/unique_ptr)、[std::weak_ptr](https://en.cppreference.com/w/cpp/memory/weak_ptr)，基于 C++17 实现 23 种 GoF 设计模式
+* 使用智能指针并不意味着一定没有内存泄漏，比如循环引用的情况（实现观察者模式时容易写出类似代码）
 
 ```cpp
 class B;
@@ -20,18 +20,17 @@ class B {
   std::shared_ptr<A> a;
 };
 
-int main()
-{
+int main() {
   {
     auto x = std::make_shared<A>();
     x->b = std::make_shared<B>();
     x->b->a = x;
-  } // x 的引用计数由 2 减为 1，不会析构，于是 x->b 也不会析构，导致两次内存泄漏
-  // 解决方案是将 B::a 改为 std::weak_ptr，这样引用计数不会为2，而是保持 1，此处就会由 1 减为 0，从而正常析构
+  }  // x 的引用计数由 2 减为 1，不会析构，于是 x->b
+     // 也不会析构，导致两次内存泄漏
+  // 解决方案是将 B::a 改为 std::weak_ptr，这样引用计数不会为2，而是保持
+  // 1，此处就会由 1 减为 0，从而正常析构
 }
 ```
-
-* 最初实现观察者模式时，就由于没有正确区分几种智能指针的使用场景，无意识地写出了循环引用的代码
 
 ### 检测内存泄漏的方法
 
@@ -42,11 +41,10 @@ int main()
 #include <crtdbg.h>
 
 #ifdef _DEBUG
-#define new new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#define new new (_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
-int main()
-{
+int main() {
   int* p = new int(42);
   _CrtDumpMemoryLeaks();
 }
@@ -66,16 +64,16 @@ Object dump complete.
 
 ```cpp
 #include <crtdbg.h>
+
 #include <memory>
 
 #ifdef _DEBUG
-#define new new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#define new new (_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
-int main()
-{
+int main() {
   auto p = std::make_shared<int>(42);
-  _CrtDumpMemoryLeaks(); // 此时 std::shared_ptr 还未析构，因此报告内存泄漏
+  _CrtDumpMemoryLeaks();  // 此时 std::shared_ptr 还未析构，因此报告内存泄漏
 }
 ```
 
@@ -85,11 +83,10 @@ int main()
 #include <crtdbg.h>
 
 #ifdef _DEBUG
-#define new new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#define new new (_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
-int main()
-{
+int main() {
   _CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG));
   int* p = new int(42);
 }
@@ -104,16 +101,15 @@ int main()
 * 以下两种传参方式，应该如何选择？
 
 ```cpp
-void f(std::shared_ptr<A> p); // 传值
-void f(const std::shared_ptr<A>& p); // 传引用
+void f(std::shared_ptr<A> p);         // 传值
+void f(const std::shared_ptr<A>& p);  // 传引用
 ```
 
 * 通常情况下，采用传引用方式是最稳妥且没有心智负担的
 * 传值方式只在之后一定会对其拷贝时才有使用的可能
 
 ```cpp
-void f(std::shared_ptr<A> p)
-{
+void f(std::shared_ptr<A> p) {
   auto q = std::move(p);
   // ...
 }
@@ -125,6 +121,7 @@ void f(std::shared_ptr<A> p)
 class X {
  public:
   explicit X(std::shared_ptr<A> _p) : p(std::move(_p)) {}
+
  private:
   std::shared_ptr<A> p;
 };
@@ -133,14 +130,17 @@ class X {
 * 不同的传参方式表达了不同的语义
 
 ```cpp
-void f(A&); // 仅使用对象，不涉及对象资源所有权的管理
-void f(A*); // 仅使用对象，不涉及对象资源所有权的管理
-void f(std::unique_ptr<A>); // 用于转移唯一所有权（用 std::move 传入）
-void f(std::unique_ptr<A>&); // 用于重置内部对象
-void f(const std::unique_ptr<A>&); // 不如直接传引用或原始指针
-void f(std::shared_ptr<A>); // 引用计数共享，可接受 std::unique_ptr 实参（用 std::move 传入）
-void f(std::shared_ptr<A>&); // 引用计数不变，用于重置内部对象，不可接受 std::unique_ptr 实参
-void f(const std::shared_ptr<A>&); // 引用计数不变，不可重置内部对象，可接受 std::unique_ptr 实参（用 std::move 传入）
+void f(A&);  // 仅使用对象，不涉及对象资源所有权的管理
+void f(A*);  // 仅使用对象，不涉及对象资源所有权的管理
+void f(std::unique_ptr<A>);  // 用于转移唯一所有权（用 std::move 传入）
+void f(std::unique_ptr<A>&);        // 用于重置内部对象
+void f(const std::unique_ptr<A>&);  // 不如直接传引用或原始指针
+void f(std::shared_ptr<A>);  // 引用计数共享，可接受 std::unique_ptr 实参（用
+                             // std::move 传入）
+void f(std::shared_ptr<A>&);  // 引用计数不变，用于重置内部对象，不可接受
+                              // std::unique_ptr 实参
+void f(const std::shared_ptr<A>&);  // 引用计数不变，不可重置内部对象，可接受
+                                    // std::unique_ptr 实参（用 std::move 传入）
 ```
 
 ## 设计模式简介
