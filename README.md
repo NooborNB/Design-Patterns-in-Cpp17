@@ -99,7 +99,7 @@ int main()
 * 为了尽可能简单，所有代码均以单个源文件的形式实现
 * 源码中未使用平台相关 API，因此在任何支持 C++17 标准的平台均可通过编译
 
-### [std::shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr) 的传参方式选择
+### 智能指针的传参方式选择
 
 * 以下两种传参方式，应该如何选择？
 
@@ -130,7 +130,18 @@ class X {
 };
 ```
 
-* 此项目中在涉及资源所有权之处均使用智能指针作为参数，对于不涉及资源所有权的，直接传引用
+* 不同的传参方式表达了不同的语义
+
+```cpp
+void f(A&); // 仅使用对象，不涉及对象资源所有权的管理
+void f(A*); // 仅使用对象，不涉及对象资源所有权的管理
+void f(std::unique_ptr<A>); // 用于转移唯一所有权（用 std::move 传入）
+void f(std::unique_ptr<A>&); // 用于重置内部对象
+void f(const std::unique_ptr<A>&); // 不如直接传引用或原始指针
+void f(std::shared_ptr<A>); // 引用计数共享，可接受 std::unique_ptr 实参（用 std::move 传入）
+void f(std::shared_ptr<A>&); // 引用计数不变，用于重置内部对象，不可接受 std::unique_ptr 实参
+void f(const std::shared_ptr<A>&); // 引用计数不变，不可重置内部对象，可接受 std::unique_ptr 实参（用 std::move 传入）
+```
 
 ## 设计模式简介
 
