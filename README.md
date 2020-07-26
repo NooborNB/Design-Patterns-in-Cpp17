@@ -5,7 +5,7 @@
 ## 前言
 
 * 练习正确使用 [std::shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr)、[std::unique_ptr](https://en.cppreference.com/w/cpp/memory/unique_ptr)、[std::weak_ptr](https://en.cppreference.com/w/cpp/memory/weak_ptr)，基于 C++17 实现 23 种 GoF 设计模式
-* 使用智能指针并不意味着一定没有内存泄漏，比如循环引用的情况（实现观察者模式时容易写出类似代码）
+* 使用智能指针并不意味着一定没有内存泄漏，比如循环引用的情况（实现[观察者模式](src/Observer.cpp)时容易写出类似代码）
 
 ```cpp
 class B;
