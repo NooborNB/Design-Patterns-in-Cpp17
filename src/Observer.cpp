@@ -1,7 +1,7 @@
-#include <iostream>
-#include <memory>
-#include <list>
 #include <cstdint>
+#include <iostream>
+#include <list>
+#include <memory>
 
 class Subject;
 
@@ -17,33 +17,19 @@ class Observer {
 
 class Subject {
  public:
-  void add(const std::shared_ptr<Observer>& o)
-  {
-    observers.emplace_back(o);
-  }
+  void add(const std::shared_ptr<Observer>& o) { observers.emplace_back(o); }
 
-  void remove(const std::shared_ptr<Observer>& o)
-  {
-    observers.remove(o);
-  }
+  void remove(const std::shared_ptr<Observer>& o) { observers.remove(o); }
 
-  void notify()
-  {
-    for (auto&& x : observers)
-    {
+  void notify() {
+    for (auto&& x : observers) {
       x->update();
     }
   }
 
-  void setValue(std::int32_t n)
-  {
-    value = n;
-  }
+  void setValue(std::int32_t n) { value = n; }
 
-  std::int32_t getValue() const
-  {
-    return value;
-  }
+  std::int32_t getValue() const { return value; }
 
  private:
   std::list<std::shared_ptr<Observer>> observers;
@@ -54,10 +40,8 @@ class ObserverA : public Observer {
  public:
   using Observer::Observer;
 
-  void update() override
-  {
-    if (const auto p = subject.lock())
-    {
+  void update() override {
+    if (const auto p = subject.lock()) {
       std::cout << "Subject value in A: " << p->getValue() << '\n';
     }
   }
@@ -67,17 +51,14 @@ class ObserverB : public Observer {
  public:
   using Observer::Observer;
 
-  void update() override
-  {
-    if (const auto p = subject.lock())
-    {
+  void update() override {
+    if (const auto p = subject.lock()) {
       std::cout << "Subject value in B: " << p->getValue() << '\n';
     }
   }
 };
 
-int main()
-{
+int main() {
   auto subject = std::make_shared<Subject>();
   auto a = std::make_shared<ObserverA>(subject);
   auto b = std::make_shared<ObserverB>(subject);
@@ -86,5 +67,5 @@ int main()
   subject->add(b);
 
   subject->setValue(3);
-  subject->notify(); // subject value in A: 3\nsubject value in B: 3\n
+  subject->notify();  // subject value in A: 3\nsubject value in B: 3\n
 }

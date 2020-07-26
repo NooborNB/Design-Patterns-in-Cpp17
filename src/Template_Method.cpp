@@ -3,8 +3,7 @@
 
 class Abstract {
  public:
-  void templateMethod()
-  {
+  void templateMethod() {
     f();
     g();
     h();
@@ -20,45 +19,26 @@ class Abstract {
 
 class A : public Abstract {
  private:
-  void f() override
-  {
-    std::cout << 1;
-  }
+  void f() override { std::cout << 1; }
 
-  void g() override
-  {
-    std::cout << 2;
-  }
+  void g() override { std::cout << 2; }
 
-  void h() override
-  {
-    std::cout << 3;
-  }
+  void h() override { std::cout << 3; }
 };
 
 class B : public Abstract {
  private:
-  void f() override
-  {
-    std::cout << 4;
-  }
+  void f() override { std::cout << 4; }
 
-  void g() override
-  {
-    std::cout << 5;
-  }
+  void g() override { std::cout << 5; }
 
-  void h() override
-  {
-    std::cout << 6;
-  }
+  void h() override { std::cout << 6; }
 };
 
-int main()
-{
+int main() {
   std::unique_ptr<Abstract> a = std::make_unique<A>();
   std::unique_ptr<Abstract> b = std::make_unique<B>();
 
-  a->templateMethod(); // 123
-  b->templateMethod(); // 456
+  a->templateMethod();  // 123
+  b->templateMethod();  // 456
 }

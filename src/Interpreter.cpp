@@ -6,15 +6,9 @@
 
 class Context {
  public:
-  void setMessage(std::string_view _s)
-  {
-    s = _s;
-  }
+  void setMessage(std::string_view _s) { s = _s; }
 
-  std::string_view getMessage() const
-  {
-    return s;
-  }
+  std::string_view getMessage() const { return s; }
 
  private:
   std::string s;
@@ -30,20 +24,20 @@ class TerminalExpression : public Expression {
  public:
   TerminalExpression(std::string_view _s) : s(_s) {}
 
-  bool interpret(const Context& context) override
-  {
+  bool interpret(const Context& context) override {
     return context.getMessage().find(s) == std::string_view::npos;
   }
+
  private:
   std::string s;
 };
 
 class AndExpression : public Expression {
  public:
-  AndExpression(std::shared_ptr<Expression> _p, std::shared_ptr<Expression> _q) : p(std::move(_p)), q(std::move(_q)) {}
+  AndExpression(std::shared_ptr<Expression> _p, std::shared_ptr<Expression> _q)
+      : p(std::move(_p)), q(std::move(_q)) {}
 
-  bool interpret(const Context& context) override
-  {
+  bool interpret(const Context& context) override {
     return p->interpret(context) && q->interpret(context);
   }
 
@@ -52,21 +46,18 @@ class AndExpression : public Expression {
   std::shared_ptr<Expression> q;
 };
 
-int main()
-{
+int main() {
   std::shared_ptr<Expression> a = std::make_shared<TerminalExpression>("sb");
   std::shared_ptr<Expression> b = std::make_shared<TerminalExpression>("fk");
-  std::shared_ptr<Expression> expression = std::make_shared<AndExpression>(a, b);
+  std::shared_ptr<Expression> expression =
+      std::make_shared<AndExpression>(a, b);
 
   Context context;
   context.setMessage("hello world");
 
-  if (expression->interpret(context))
-  {
+  if (expression->interpret(context)) {
     std::cout << context.getMessage();
-  }
-  else
-  {
+  } else {
     std::cout << "sensitive words";
   }
 }

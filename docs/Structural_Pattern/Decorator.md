@@ -11,10 +11,7 @@ class Shape {
 // 定义实现的 ConcreteComponent
 class Line : public Shape {
  public:
-  void show() override
-  {
-    std::cout << "line\n";
-  }
+  void show() override { std::cout << "line\n"; }
 };
 
 // 持有一个 Component 指针的 Decorator，它提供与 Component 一致的接口
@@ -22,10 +19,8 @@ class Decorator : public Shape {
  public:
   Decorator(std::unique_ptr<Shape> p) : shape(std::move(p)) {}
 
-  void show() override
-  {
-    shape->show();
-  }
+  void show() override { shape->show(); }
+
  private:
   std::unique_ptr<Shape> shape;
 };
@@ -35,17 +30,16 @@ class ColorDecorator : public Decorator {
  public:
   using Decorator::Decorator;
 
-  void show() override
-  {
+  void show() override {
     std::cout << "red ";
     Decorator::show();
   }
 };
 
-int main()
-{
-  std::unique_ptr<Shape> colorDecorator = std::make_unique<ColorDecorator>(std::make_unique<Line>());
-  colorDecorator->show(); // red line
+int main() {
+  std::unique_ptr<Shape> colorDecorator =
+      std::make_unique<ColorDecorator>(std::make_unique<Line>());
+  colorDecorator->show();  // red line
 }
 ```
 
@@ -58,11 +52,10 @@ class Shape {
   virtual ~Shape() = default;
 };
 
-template<typename... T>
+template <typename... T>
 class Line : public Shape, public T... {
  public:
-  void show() override
-  {
+  void show() override {
     std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T()...));
     std::cout << "line\n";
   }
@@ -70,31 +63,24 @@ class Line : public Shape, public T... {
 
 class ColorDecorator {
  public:
-  void show()
-  {
-    std::cout << "red ";
-  }
+  void show() { std::cout << "red "; }
 };
 
 class WeightDecorator {
  public:
-  void show()
-  {
-    std::cout << "bold ";
-  }
+  void show() { std::cout << "bold "; }
 };
 
-int main()
-{
+int main() {
   Line line1;
   Line<ColorDecorator> line2;
   Line<WeightDecorator> line3;
   Line<ColorDecorator, WeightDecorator> line4;
 
-  line1.show(); // line
-  line2.show(); // red line
-  line3.show(); // bold line
-  line4.show(); // red bold line
+  line1.show();  // line
+  line2.show();  // red line
+  line3.show();  // bold line
+  line4.show();  // red bold line
 }
 ```
 
@@ -107,60 +93,51 @@ class Shape {
   virtual ~Shape() = default;
 };
 
-template<template<typename>class... T>
+template <template <typename> class... T>
 class Line : public Shape, public T<Line<>>... {
  public:
-  void show() override
-  {
-    std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T<Line<>>()...));
+  void show() override {
+    std::apply([](auto&&... x) { (x.show(), ...); },
+               std::make_tuple(T<Line<>>()...));
     std::cout << "line\n";
   }
 };
 
-template<template<typename>class... T>
+template <template <typename> class... T>
 class Text : public Shape, public T<Text<>>... {
  public:
-  void show() override
-  {
-    std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T<Text<>>()...));
+  void show() override {
+    std::apply([](auto&&... x) { (x.show(), ...); },
+               std::make_tuple(T<Text<>>()...));
     std::cout << "text\n";
   }
 };
 
-template<typename T>
+template <typename T>
 class ColorDecorator {
  public:
-  void show()
-  {
-    if constexpr (std::is_constructible_v<Line<>*, T*>)
-    {
+  void show() {
+    if constexpr (std::is_constructible_v<Line<>*, T*>) {
       std::cout << "red ";
-    }
-    else
-    {
+    } else {
       std::cout << "black ";
     }
   }
 };
 
-template<typename T>
+template <typename T>
 class WeightDecorator {
  public:
-  void show()
-  {
-    if constexpr (std::is_constructible_v<Line<>*, T*>)
-    {
+  void show() {
+    if constexpr (std::is_constructible_v<Line<>*, T*>) {
       std::cout << "bold ";
-    }
-    else
-    {
+    } else {
       std::cout << "normal ";
     }
   }
 };
 
-int main()
-{
+int main() {
   Line line1;
   Line<ColorDecorator> line2;
   Line<WeightDecorator> line3;
@@ -171,14 +148,14 @@ int main()
   Text<WeightDecorator> text3;
   Text<ColorDecorator, WeightDecorator> text4;
 
-  line1.show(); // line
-  line2.show(); // red line
-  line3.show(); // bold line
-  line4.show(); // red bold line
+  line1.show();  // line
+  line2.show();  // red line
+  line3.show();  // bold line
+  line4.show();  // red bold line
 
-  text1.show(); // text
-  text2.show(); // black text
-  text3.show(); // normal text
-  text4.show(); // black normal text
+  text1.show();  // text
+  text2.show();  // black text
+  text3.show();  // normal text
+  text4.show();  // black normal text
 }
 ```

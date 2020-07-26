@@ -16,25 +16,13 @@ class LOLGameDevice : public GameDevice {
  public:
   LOLGameDevice() : device(std::make_unique<DeviceSuite>()) {}
 
-  void buildMouse() override
-  {
-    device->setMouse("Logitech");
-  }
+  void buildMouse() override { device->setMouse("Logitech"); }
 
-  void buildKeyboard() override
-  {
-    device->setKeyboard("Filco");
-  }
+  void buildKeyboard() override { device->setKeyboard("Filco"); }
 
-  void buildHeadphone() override
-  {
-    device->setHeadphone("Sennheiser");
-  }
+  void buildHeadphone() override { device->setHeadphone("Sennheiser"); }
 
-  DeviceSuite& getDevice() const override
-  {
-    return *device;
-  }
+  DeviceSuite& getDevice() const override { return *device; }
 
  private:
   std::unique_ptr<DeviceSuite> device;
@@ -45,25 +33,13 @@ class DNFGameDevice : public GameDevice {
  public:
   DNFGameDevice() : device(std::make_unique<DeviceSuite>()) {}
 
-  void buildMouse() override
-  {
-    device->setMouse("Razer");
-  }
+  void buildMouse() override { device->setMouse("Razer"); }
 
-  void buildKeyboard() override
-  {
-    device->setKeyboard("Cherry");
-  }
+  void buildKeyboard() override { device->setKeyboard("Cherry"); }
 
-  void buildHeadphone() override
-  {
-    device->setHeadphone("Beyerdynamic");
-  }
+  void buildHeadphone() override { device->setHeadphone("Beyerdynamic"); }
 
-  DeviceSuite& getDevice() const override
-  {
-    return *device;
-  }
+  DeviceSuite& getDevice() const override { return *device; }
 
  private:
   std::unique_ptr<DeviceSuite> device;
@@ -75,8 +51,7 @@ class DNFGameDevice : public GameDevice {
 ```cpp
 class Life {
  public:
-  DeviceSuite& createDevice(GameDevice& builder)
-  {
+  DeviceSuite& createDevice(GameDevice& builder) {
     builder.buildMouse();
     builder.buildKeyboard();
     builder.buildHeadphone();
@@ -84,8 +59,7 @@ class Life {
   }
 };
 
-int main()
-{
+int main() {
   Life life;
   LOLGameDevice LOLBuilder;
   DNFGameDevice DNFBuilder;

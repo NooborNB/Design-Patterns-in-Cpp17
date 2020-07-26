@@ -14,20 +14,11 @@ class Connection {
  public:
   Connection(std::unique_ptr<State> _p) : p(std::move(_p)) {}
 
-  void changeState(std::unique_ptr<State> _p)
-  {
-    p = std::move(_p);
-  }
+  void changeState(std::unique_ptr<State> _p) { p = std::move(_p); }
 
-  void open() const
-  {
-    p->open(*this);
-  }
+  void open() const { p->open(*this); }
 
-  void close() const
-  {
-    p->close(*this);
-  }
+  void close() const { p->close(*this); }
 
  private:
   std::unique_ptr<State> p;
@@ -35,37 +26,24 @@ class Connection {
 
 class StateA : public State {
  public:
-  void open(const Connection&) const override
-  {
-    std::cout << 1;
-  }
+  void open(const Connection&) const override { std::cout << 1; }
 
-  void close(const Connection&) const override
-  {
-    std::cout << 2;
-  }
+  void close(const Connection&) const override { std::cout << 2; }
 };
 
 class StateB : public State {
  public:
-  void open(const Connection&) const override
-  {
-    std::cout << 3;
-  }
+  void open(const Connection&) const override { std::cout << 3; }
 
-  void close(const Connection&) const override
-  {
-    std::cout << 4;
-  }
+  void close(const Connection&) const override { std::cout << 4; }
 };
 
-int main()
-{
+int main() {
   Connection connection{std::make_unique<StateA>()};
-  connection.open(); // 1
-  connection.close(); // 2
+  connection.open();   // 1
+  connection.close();  // 2
 
   connection.changeState(std::make_unique<StateB>());
-  connection.open(); // 3
-  connection.close(); // 4
+  connection.open();   // 3
+  connection.close();  // 4
 }

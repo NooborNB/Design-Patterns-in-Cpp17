@@ -3,8 +3,7 @@
 ```cpp
 class Abstract {
  public:
-  void templateMethod()
-  {
+  void templateMethod() {
     f();
     g();
     h();
@@ -32,12 +31,11 @@ class B : public Abstract {
   void h() override { std::cout << 6; }
 };
 
-int main()
-{
+int main() {
   std::unique_ptr<Abstract> a = std::make_unique<A>();
   std::unique_ptr<Abstract> b = std::make_unique<B>();
 
-  a->templateMethod(); // 123
-  b->templateMethod(); // 456
+  a->templateMethod();  // 123
+  b->templateMethod();  // 456
 }
 ```

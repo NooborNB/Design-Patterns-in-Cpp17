@@ -19,8 +19,7 @@ class CodeGenerator {
 // 提供高层接口的Facade类
 class Compiler {
  public:
-  void run()
-  {
+  void run() {
     Scanner s;
     s.scan();
 
@@ -32,8 +31,7 @@ class Compiler {
   }
 };
 
-int main()
-{
+int main() {
   Compiler compiler;
   compiler.run();
 }

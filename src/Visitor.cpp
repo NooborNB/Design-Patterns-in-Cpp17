@@ -1,6 +1,6 @@
 #include <iostream>
-#include <memory>
 #include <list>
+#include <memory>
 
 class Element;
 
@@ -13,15 +13,9 @@ class Visitor {
 
 class ConcreteVisitor : public Visitor {
  public:
-  void visitA(const Element&) override
-  {
-    std::cout << "visit A\n";
-  }
+  void visitA(const Element&) override { std::cout << "visit A\n"; }
 
-  void visitB(const Element&) override
-  {
-    std::cout << "visit B\n";
-  }
+  void visitB(const Element&) override { std::cout << "visit B\n"; }
 };
 
 class Element {
@@ -32,34 +26,21 @@ class Element {
 
 class ElementA : public Element {
  public:
-  void accept(const std::shared_ptr<Visitor>& v) override
-  {
-    v->visitA(*this);
-  }
+  void accept(const std::shared_ptr<Visitor>& v) override { v->visitA(*this); }
 };
 
 class ElementB : public Element {
  public:
-  void accept(const std::shared_ptr<Visitor>& v) override
-  {
-    v->visitB(*this);
-  }
+  void accept(const std::shared_ptr<Visitor>& v) override { v->visitB(*this); }
 };
 
 class ObjectStructure {
  public:
-  void add(const std::shared_ptr<Element>& e)
-  {
-    elements.emplace_back(e);
-  }
+  void add(const std::shared_ptr<Element>& e) { elements.emplace_back(e); }
 
-  void remove(const std::shared_ptr<Element>& e)
-  {
-    elements.remove(e);
-  }
+  void remove(const std::shared_ptr<Element>& e) { elements.remove(e); }
 
-  void accept(const std::shared_ptr<Visitor>& visitor)
-  {
+  void accept(const std::shared_ptr<Visitor>& visitor) {
     for (auto&& x : elements) x->accept(visitor);
   }
 
@@ -67,8 +48,7 @@ class ObjectStructure {
   std::list<std::shared_ptr<Element>> elements;
 };
 
-int main()
-{
+int main() {
   const std::shared_ptr<Element> a = std::make_shared<ElementA>();
   const std::shared_ptr<Element> b = std::make_shared<ElementB>();
 
@@ -77,5 +57,5 @@ int main()
   o.add(b);
 
   const std::shared_ptr<Visitor> visitor = std::make_shared<ConcreteVisitor>();
-  o.accept(visitor); // visit A\nvisit B\n
+  o.accept(visitor);  // visit A\nvisit B\n
 }

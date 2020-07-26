@@ -9,22 +9,15 @@ class Graphic {
 
 class Image : public Graphic {
  public:
-  void show() override
-  {
-    std::cout << 1;
-  }
+  void show() override { std::cout << 1; }
 };
 
 class Proxy : public Graphic {
  public:
-  void show() override
-  {
-    getImage().show();
-  }
+  void show() override { getImage().show(); }
 
  protected:
-  Image& getImage()
-  {
+  Image& getImage() {
     if (!p) p = std::make_unique<Image>();
     return *p;
   }
@@ -33,8 +26,7 @@ class Proxy : public Graphic {
   std::unique_ptr<Image> p;
 };
 
-int main()
-{
+int main() {
   std::unique_ptr<Graphic> proxy = std::make_unique<Proxy>();
-  proxy->show(); // 1
+  proxy->show();  // 1
 }

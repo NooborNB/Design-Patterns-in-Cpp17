@@ -1,27 +1,26 @@
 * 适配器提供了源接口到目标接口的转换
 
 ```cpp
-class Target { // 提供给用户的类
+class Target {  // 提供给用户的类
  public:
   virtual void f() = 0;
   virtual ~Target() = default;
 };
 
-class Adaptee { // 提供实际功能的类
+class Adaptee {  // 提供实际功能的类
  public:
   virtual void g() { std::cout << 1; }
   virtual ~Adaptee() = default;
 };
 
-class Adapter : public Target, public Adaptee { // 适配器
+class Adapter : public Target, public Adaptee {  // 适配器
  public:
   void f() override { Adaptee::g(); }
 };
 
-int main()
-{
+int main() {
   std::unique_ptr<Target> target = std::make_unique<Adapter>();
-  target->f(); // 1
+  target->f();  // 1
 }
 ```
 
@@ -32,6 +31,7 @@ class Adapter : public Target {
  public:
   Adapter() : p(std::make_unique<Adaptee>()) {}
   void f() override { p->g(); }
+
  private:
   std::unique_ptr<Adaptee> p;
 };

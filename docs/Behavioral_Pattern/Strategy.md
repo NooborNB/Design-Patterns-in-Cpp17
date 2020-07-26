@@ -21,21 +21,17 @@ class Context {
  public:
   Context(std::unique_ptr<Strategy> _p) : p(std::move(_p)) {}
 
-  void f() const
-  {
-    p->f();
-  }
+  void f() const { p->f(); }
 
  private:
   std::unique_ptr<Strategy> p;
 };
 
-int main()
-{
-  const Context a{ std::make_unique<StrategyA>() };
-  const Context b{ std::make_unique<StrategyB>() };
+int main() {
+  const Context a{std::make_unique<StrategyA>()};
+  const Context b{std::make_unique<StrategyB>()};
 
-  a.f(); // 1
-  b.f(); // 2
+  a.f();  // 1
+  b.f();  // 2
 }
 ```

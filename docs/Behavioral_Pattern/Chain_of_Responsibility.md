@@ -3,22 +3,15 @@
 ```cpp
 class Handler {
  public:
-  virtual void process(std::int32_t i)
-  {
-    if (p)
-    {
-      p->process(i); // 分派给链中的下一对象
-    }
-    else
-    {
-      std::cout << i << "can't be processed\n"; // 未指定下一对象则处理失败
+  virtual void process(std::int32_t i) {
+    if (p) {
+      p->process(i);  // 分派给链中的下一对象
+    } else {
+      std::cout << i << "can't be processed\n";  // 未指定下一对象则处理失败
     }
   }
 
-  void setNext(std::shared_ptr<Handler> _p)
-  {
-    p = std::move(_p);
-  }
+  void setNext(std::shared_ptr<Handler> _p) { p = std::move(_p); }
 
   virtual ~Handler() = default;
 
@@ -28,29 +21,21 @@ class Handler {
 
 class A : public Handler {
  public:
-  void process(std::int32_t i) override
-  {
-    if (i < 10)
-    {
+  void process(std::int32_t i) override {
+    if (i < 10) {
       std::cout << i << " processed by A\n";
-    }
-    else
-    {
-      Handler::process(i); // 若不能处理则转发给链中下一对象
+    } else {
+      Handler::process(i);  // 若不能处理则转发给链中下一对象
     }
   }
 };
 
 class B : public Handler {
  public:
-  void process(std::int32_t i) override
-  {
-    if (i < 100)
-    {
+  void process(std::int32_t i) override {
+    if (i < 100) {
       std::cout << i << " processed by B\n";
-    }
-    else
-    {
+    } else {
       Handler::process(i);
     }
   }
@@ -58,21 +43,16 @@ class B : public Handler {
 
 class C : public Handler {
  public:
-  void process(std::int32_t i) override
-  {
-    if (i < 1000)
-    {
+  void process(std::int32_t i) override {
+    if (i < 1000) {
       std::cout << i << " processed by C\n";
-    }
-    else
-    {
+    } else {
       Handler::process(i);
     }
   }
 };
 
-int main()
-{
+int main() {
   auto a = std::make_shared<A>();
   auto b = std::make_shared<B>();
   auto c = std::make_shared<C>();
@@ -80,9 +60,9 @@ int main()
   a->setNext(b);
   b->setNext(c);
 
-  a->process(9); // 9 processed by A
-  a->process(999); // 999 processed by C
-  a->process(99); // 99 processed by B
-  a->process(9999); // 9999 can't be processed
+  a->process(9);     // 9 processed by A
+  a->process(999);   // 999 processed by C
+  a->process(99);    // 99 processed by B
+  a->process(9999);  // 9999 can't be processed
 }
 ```

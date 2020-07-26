@@ -11,10 +11,7 @@ class ConcreteFlyweight : public Flyweight {
  public:
   explicit ConcreteFlyweight(char _c) : c(_c) {}
 
-  void print() override
-  {
-    std::cout << c;
-  }
+  void print() override { std::cout << c; }
 
  private:
   char c;
@@ -22,10 +19,8 @@ class ConcreteFlyweight : public Flyweight {
 
 class FlyweightFactory {
  public:
-  std::shared_ptr<Flyweight> getFlyweight(char c)
-  {
-    if (const auto it = m.find(c); it != std::end(m))
-    {
+  std::shared_ptr<Flyweight> getFlyweight(char c) {
+    if (const auto it = m.find(c); it != std::end(m)) {
       std::cout << "existing char\n";
       return it->second;
     }
@@ -38,15 +33,14 @@ class FlyweightFactory {
   std::unordered_map<char, std::shared_ptr<Flyweight>> m;
 };
 
-int main()
-{
+int main() {
   FlyweightFactory factory;
   std::shared_ptr<Flyweight> a = factory.getFlyweight('a');
-  std::shared_ptr<Flyweight> b = factory.getFlyweight('a'); // existing char
+  std::shared_ptr<Flyweight> b = factory.getFlyweight('a');  // existing char
   std::shared_ptr<Flyweight> c = factory.getFlyweight('b');
 
-  a->print(); // a
-  b->print(); // a
-  c->print(); // b
+  a->print();  // a
+  b->print();  // a
+  c->print();  // b
 }
 ```

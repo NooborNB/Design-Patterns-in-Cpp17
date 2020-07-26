@@ -9,14 +9,12 @@ class Prototype {
 
 class A : public Prototype {
  public:
-  std::unique_ptr<Prototype> clone() override
-  {
+  std::unique_ptr<Prototype> clone() override {
     return std::make_unique<A>(*this);
   }
 };
 
-int main()
-{
+int main() {
   std::unique_ptr<Prototype> p = std::make_unique<A>();
   std::unique_ptr<Prototype> q = p->clone();
   assert(p != q);
