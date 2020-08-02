@@ -150,14 +150,14 @@ void f(const std::shared_ptr<A>&);  // 引用计数不变，不可重置内部�
 > Each pattern describes a problem which occurs over and over again in our environment, and then describes the core of the solution to that problem, in such a way that you can use this solution a million times over, without ever doing it the same way twice.
 
 * 后来，模式的思想也被引入了软件工程领域，[软件工程](https://book.douban.com/subject/6047742/)中提出了以下设计原则，设计模式也遵循了这些原则
-  * 开闭原则（The Open-Closed Principle，OCP）：对扩展开放，对修改关闭。修改程序时，不需要修改类内部代码就可以扩展类的功能，如装饰器模式
+  * 开闭原则（The Open-Closed Principle，OCP）：对扩展开放，对修改关闭。修改程序时，不需要修改类内部代码就可以扩展类的功能，如[装饰器模式](src/Decorator.cpp)
   * Liskov 替换原则（Liskov Substitution Principle，LSP）：任何基类出现的地方，都可以用派生类替换
   * 依赖倒置原则（Dependency Inversion Principle，DIP）：针对接口（纯虚函数）编程，而非针对实现编程
   * 接口分离原则（Interface Segregation Principle，ISP）：接口功能的粒度应该尽可能小，多个功能分离的小接口、单个合并了这些功能的大接口，前者是更好的做法，因为这样降低了依赖，耦合度更低
   * 发布复用等价性原则（Release Reuse Equivalency Principle，REP）：复用的粒度就是发布的粒度。第三方库的作者需要维护每个版本，作者可以修改代码，但是用户不需要了解源码的变化，而可以自由选择使用哪个版本的库，因此库作者应该将可复用的类打包成包，以包为单位来更新，而不是更新每个类，比如 [Boost](https://www.boost.org/) 有一个版本号，而其中的每个子部分（如 [Boost.Asio](https://www.boost.org/doc/libs/1_66_0/doc/html/boost_asio.html)）又有各自独立的版本号
   * 共同封装原则（Common Closure Principle，CCP）：一同变更的类应该合在一起，如果一些类处理相同的功能或行为域，那么这些类应该根据内聚性分到一组打包，这样需要修改某个域的功能时，只需要修改这个包中的代码
   * 共同复用原则（Common Reuse Principle，CRP）：不能一起被复用的类不能被分到一组。当包中的类变化时，包的版本号也会变化，如果不相关的类被分到一组，就会导致本来无必要的包的版本升级，为此又需要进行本来无必要的集成和测试
-* 设计模式是从已有的软件设计中，针对重复出现的问题提取出的一套经验论，其概念源自 *[Design Patterns: Elements of Reusable Object-Oriented Software](https://www.oreilly.com/library/view/design-patterns-elements/0201633612/)*，此书由四人合著，因此简称 GoF（Gang of Four）。GoF 总结归纳了 23 种设计模式，分为创建型（Creational）、结构型（Structural）、行为型（Behavioral）三类。一些设计模式已经用在编程语言或框架中（如 C#、Qt、RxJS）。设计模式减少了术语交流的沟通成本，灵活使用它来写出低耦合少重复的代码。
+* 设计模式是从已有的软件设计中，针对重复出现的问题提取出的一套经验论，其概念源自 [*Design Patterns: Elements of Reusable Object-Oriented Software*](https://www.oreilly.com/library/view/design-patterns-elements/0201633612/)，此书由四人合著，因此简称 GoF（Gang of Four）。GoF 总结归纳了 23 种设计模式，分为创建型（Creational）、结构型（Structural）、行为型（Behavioral）三类。一些设计模式已经用在编程语言或框架中（如 [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)、[Qt](https://doc.qt.io/)、[RxJS](https://github.com/ReactiveX/rxjs)）。设计模式减少了术语交流的沟通成本，灵活使用它来写出低耦合少重复的代码。
 
 |创建型模式|中文名|说明|实现|
 |:-|:-|:-|:-|
