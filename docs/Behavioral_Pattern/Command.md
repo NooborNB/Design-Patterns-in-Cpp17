@@ -16,13 +16,15 @@ class Command {
 template <typename T>
 class CommandA : public Command {
  public:
-  using Action = void (T::*)();
+  using Action = std::function<void(T&)>;
 
-  CommandA(const std::shared_ptr<T>& p, Action a) : receiver(p), action(a) {}
+  CommandA(const std::shared_ptr<T>& p, Action a)
+      : receiver(p), action(std::move(a)) {}
+
   void execute() override {
     std::cout << "A";
     if (const auto p = receiver.lock()) {
-      (p.get()->*action)();
+      action(*p);
     }
   }
 
@@ -34,14 +36,15 @@ class CommandA : public Command {
 template <typename T>
 class CommandB : public Command {
  public:
-  using Action = void (T::*)();
+  using Action = std::function<void(T&)>;
 
-  CommandB(const std::shared_ptr<T>& p, Action a) : receiver(p), action(a) {}
+  CommandB(const std::shared_ptr<T>& p, Action a)
+      : receiver(p), action(std::move(a)) {}
 
   void execute() override {
     std::cout << "B";
     if (const auto p = receiver.lock()) {
-      (p.get()->*action)();
+      action(*p);
     }
   }
 
@@ -62,7 +65,9 @@ class Invoker : public Command {
 
   void execute() override {
     for (auto&& x : commands) {
-      if (const auto p = x.lock()) p->execute();
+      if (const auto p = x.lock()) {
+        p->execute();
+      }
     }
   }
 
