@@ -56,7 +56,8 @@ template <typename... T>
 class Line : public Shape, public T... {
  public:
   void show() override {
-    std::apply([](auto&&... x) { (x.show(), ...); }, std::make_tuple(T()...));
+    std::apply([](auto&&... x) { (x.show(), ...); },
+               std::forward_as_tuple(T()...));
     std::cout << "line\n";
   }
 };
@@ -98,7 +99,7 @@ class Line : public Shape, public T<Line<>>... {
  public:
   void show() override {
     std::apply([](auto&&... x) { (x.show(), ...); },
-               std::make_tuple(T<Line<>>()...));
+               std::forward_as_tuple(T<Line<>>()...));
     std::cout << "line\n";
   }
 };
@@ -108,7 +109,7 @@ class Text : public Shape, public T<Text<>>... {
  public:
   void show() override {
     std::apply([](auto&&... x) { (x.show(), ...); },
-               std::make_tuple(T<Text<>>()...));
+               std::forward_as_tuple(T<Text<>>()...));
     std::cout << "text\n";
   }
 };
